@@ -1,35 +1,63 @@
 import styled from "styled-components"
 import logo from './logo.png'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
 import { ThreeDots } from "react-loader-spinner"
 
 export default function Cadastro() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [name, setName] = useState("")
   const [image, setImage] = useState("")
   const [password, setPassword] = useState("")
+  const [disabled, setDisabled] = useState(false)
+  const [botaoAnimado, setBotaoAnimado] = useState("Cadastrar")
 
-  function cadastrar() {
+
+  function cadastrar(e) {
+    e.preventDefault()
+    setDisabled(true)
+    setBotaoAnimado(
+      <ThreeDots
+        height="80"
+        width="80"
+        radius="9"
+        color="#FFFFFF"
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        wrapperClassName=""
+        visible={true}
+      />
+    )
 
     const postURL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up"
     const dadosCadastro = { email, name, image, password }
 
     const promessa = axios.post(postURL, dadosCadastro)
-    promessa.then(alert('Deu Certo'))
-    console.log(dadosCadastro)
+    promessa.then(res => { navigate('/') })
+    promessa.catch(res => {
+      alert('Confira novamente todos os campos preenchidos!')
+      setDisabled(false)
+      setBotaoAnimado("Cadastrar")
+      setEmail("")
+      setName("")
+      setImage("")
+      setPassword("")
+
+    })
 
   }
   return (
     <ContainerInicio>
       <img src={logo} />
 
-      <form>
+      <form onSubmit={cadastrar}>
         <input
           placeholder="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+          disabled={disabled}
           required
         />
 
@@ -37,6 +65,7 @@ export default function Cadastro() {
           placeholder="senha"
           value={password}
           onChange={e => setPassword(e.target.value)}
+          disabled={disabled}
           required
         />
 
@@ -44,16 +73,18 @@ export default function Cadastro() {
           placeholder="nome"
           value={name}
           onChange={e => setName(e.target.value)}
+          disabled={disabled}
           required
         />
         <input
           placeholder="foto"
           value={image}
           onChange={e => setImage(e.target.value)}
+          disabled={disabled}
           required
         />
 
-        <button onClick={cadastrar}>Entrar</button>
+        <button disabled={disabled}>{botaoAnimado}</button>
 
       </form>
 
@@ -108,6 +139,9 @@ const ContainerInicio = styled.div`
     height:45px;
     border: none;
     margin-bottom: 25px;
+    display:flex;
+    align-items:center;
+    justify-content: center;
     color:#FFFFFF;
     font-family:'Lexend Deca', sans-serif;
     font-size:20px;
