@@ -1,18 +1,83 @@
 import styled from "styled-components"
 import logo from './logo.png'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useState } from "react"
+import axios from "axios"
+import { ThreeDots } from "react-loader-spinner"
 
 export default function Inicio() {
+
+  const navigate = useNavigate()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [botaoAnimado, setBotaoAnimado] = useState("Entrar")
+  const [disabled, setDisabled] = useState(false)
+
+  function entrar(e) {
+    e.preventDefault()
+    setDisabled(true)
+    setBotaoAnimado(
+      <ThreeDots
+        height="80"
+        width="80"
+        radius="9"
+        color="#FFFFFF"
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        wrapperClassName=""
+        visible={true}
+      />
+    )
+
+    const postURL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
+    const dadosUsuario = { email, password }
+
+    const promisse = axios.post(postURL, dadosUsuario)
+    promisse.then(res => { navigate('/hoje') })
+
+    promisse.catch(res => {
+      alert('Email e/ou Senha incorretos!')
+      setDisabled(false)
+      setBotaoAnimado("Entrar")
+      setEmail("")
+      setPassword("")
+
+    })
+
+  }
+
   return (
     <ContainerInicio>
       <img src={logo} />
-      <input placeholder="email" />
-      <input placeholder="senha" />
-      <button>Entrar</button>
+      <form onSubmit={entrar}>
+        <input
+          placeholder="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          disabled={disabled}
+          required
+        />
+
+        <input
+          placeholder="senha"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          disabled={disabled}
+          required
+        />
+
+        <button disabled={disabled}>{botaoAnimado}</button>
+
+      </form>
+
+
       <StyledLink to="/cadastro">Não tem uma conta? Cadastre-se!</StyledLink>
+
     </ContainerInicio>
   )
 }
+
+
 
 
 const ContainerInicio = styled.div`
@@ -29,6 +94,11 @@ const ContainerInicio = styled.div`
    img{
     margin-top: 68px;
     margin-bottom: 33px;
+   }
+   form{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
    }
 
    input{
@@ -54,9 +124,15 @@ const ContainerInicio = styled.div`
     height:45px;
     border: none;
     margin-bottom: 25px;
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    color:#FFFFFF;
+    font-family:'Lexend Deca', sans-serif;
+    font-size:20px;
    }
   `
-  const StyledLink = styled(Link)`
+const StyledLink = styled(Link)`
   color: #52B6FF;
   font-size:14px;
   `
