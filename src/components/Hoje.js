@@ -1,6 +1,12 @@
+import Topo from './Topo'
+import Menu from './Menu'
+
 export default function Hoje() {
-    return (
-  
-   <div>Hoje</div>
+    return (  
+      <>
+   <Topo/>
+   Hoje
+   <Menu/>
+   </>
     )
   }

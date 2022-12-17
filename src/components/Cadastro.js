@@ -1,17 +1,20 @@
 import styled from "styled-components"
-import logo from './logo.png'
+import logo from "/Users/55359/projeto11-trackit/src/assets/img/logo.png"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
 import { ThreeDots } from "react-loader-spinner"
+import React, { useContext } from 'react'
+import MyContext from '../contexts/context'
 
 export default function Cadastro() {
   const navigate = useNavigate()
-  const [email, setEmail] = useState("")
-  const [name, setName] = useState("")
-  const [image, setImage] = useState("")
-  const [password, setPassword] = useState("")
-  const [disabled, setDisabled] = useState(false)
+  // const [email, setEmail] = useState("")
+  // const [name, setName] = useState("")
+  // const [image, setImage] = useState("")
+  // const [password, setPassword] = useState("")
+  // const [disabled, setDisabled] = useState(false)
+  const { email, setEmail, name, setName,image, setImage, password, setPassword, disabled, setDisabled} = useContext(MyContext)
   const [botaoAnimado, setBotaoAnimado] = useState("Cadastrar")
 
 

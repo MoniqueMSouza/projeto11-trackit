@@ -1,6 +1,12 @@
+import Topo from './Topo'
+import Menu from './Menu'
+
 export default function Habitos() {
-    return (
-  
-   <div>Habitos</div>
+    return (  
+      <>
+   <Topo/>
+   Habitos
+   <Menu/>
+   </>
     )
   }

@@ -1,18 +1,21 @@
 import styled from "styled-components"
-import logo from './logo.png'
+import logo from "/Users/55359/projeto11-trackit/src/assets/img/logo.png"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
 import { ThreeDots } from "react-loader-spinner"
+import React, { useContext } from 'react'
+import MyContext from '../contexts/context'
 
 export default function Inicio() {
 
-  const navigate = useNavigate()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [botaoAnimado, setBotaoAnimado] = useState("Entrar")
-  const [disabled, setDisabled] = useState(false)
 
+  const navigate = useNavigate()
+  // const [email, setEmail] = useState("")
+  // const [password, setPassword] = useState("")
+  // const [disabled, setDisabled] = useState(false)
+  const [botaoAnimado, setBotaoAnimado] = useState("Entrar")
+  const { email, setEmail, setImage, password, setPassword, disabled, setDisabled } = useContext(MyContext)
   function entrar(e) {
     e.preventDefault()
     setDisabled(true)
@@ -33,7 +36,10 @@ export default function Inicio() {
     const dadosUsuario = { email, password }
 
     const promisse = axios.post(postURL, dadosUsuario)
-    promisse.then(res => { navigate('/hoje') })
+    promisse.then(res => {
+      navigate('/hoje')
+      setImage(res.data.image)
+    })
 
     promisse.catch(res => {
       alert('Email e/ou Senha incorretos!')
@@ -116,8 +122,7 @@ const ContainerInicio = styled.div`
     
   }
    }
-
-   button{
+button{ 
     background-color: #52B6FF;
     border-radius: 4.7px;
     width:303px;
