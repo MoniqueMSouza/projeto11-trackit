@@ -15,7 +15,7 @@ export default function Inicio() {
   // const [password, setPassword] = useState("")
   // const [disabled, setDisabled] = useState(false)
   const [botaoAnimado, setBotaoAnimado] = useState("Entrar")
-  const { email, setEmail, setImage, password, setPassword, disabled, setDisabled } = useContext(MyContext)
+  const { email, setEmail, setImage, setToken, password, setPassword, disabled, setDisabled } = useContext(MyContext)
   function entrar(e) {
     e.preventDefault()
     setDisabled(true)
@@ -39,6 +39,8 @@ export default function Inicio() {
     promisse.then(res => {
       navigate('/hoje')
       setImage(res.data.image)
+      setToken(res.data.token)
+      console.log(res)
     })
 
     promisse.catch(res => {

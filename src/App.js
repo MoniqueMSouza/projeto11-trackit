@@ -16,20 +16,21 @@ export default function App() {
   const [image, setImage] = useState("")
   const [password, setPassword] = useState("")
   const [disabled, setDisabled] = useState(false)
+  const [token, setToken] = useState("")
 
 
   return (
 
     <BrowserRouter>
-    <GlobalStyle/>
-    <MyContext.Provider value={{email, setEmail, name, setName,image, setImage, password, setPassword, disabled, setDisabled }}>
-      <Routes>
-        <Route path="/" element={<Inicio />} />
-        <Route path="/cadastro" element={<Cadastro />} />
-        <Route path="/habitos" element={<Habitos />} />
-        <Route path="/hoje" element={<Hoje />} />
-        <Route path="/historico" element={<Historico />} />
-      </Routes>
+      <GlobalStyle />
+      <MyContext.Provider value={{ email, setEmail, name, setName, image, setImage, password, setPassword, disabled, setDisabled, token, setToken }}>
+        <Routes>
+          <Route path="/" element={<Inicio />} />
+          <Route path="/cadastro" element={<Cadastro />} />
+          <Route path="/habitos" element={<Habitos />} />
+          <Route path="/hoje" element={<Hoje />} />
+          <Route path="/historico" element={<Historico />} />
+        </Routes>
       </MyContext.Provider>
     </BrowserRouter>
   )
