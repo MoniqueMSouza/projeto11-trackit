@@ -1,3 +1,4 @@
+import lixeira from '/Users/55359/projeto11-trackit/src/assets/img/lixeira.png';
 import Topo from './Topo'
 import Menu from './Menu'
 import React, { useContext } from 'react'
@@ -5,6 +6,7 @@ import MyContext from '../contexts/context'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
+import { ThreeDots } from "react-loader-spinner"
 
 
 
@@ -14,7 +16,8 @@ export default function Habitos() {
   const [cadastrarHabito, setCadastrarHabito] = useState(false)
   const [nomeDoHabito, setNomeDoHabito] = useState("")
   const [diasSelecionados, setDiasSelecionados] = useState([])
-
+  const [botaoAnimado, setBotaoAnimado] = useState("Salvar")
+  const [disabled, setDisabled] = useState(false)
   const diasDaSemana = [
     { id: 0, name: "D" },
     { id: 1, name: "S" },
@@ -25,7 +28,10 @@ export default function Habitos() {
     { id: 6, name: "S" },
   ];
 
-  useEffect(() => {
+  carregarHabitos();
+
+  function carregarHabitos() {
+    // useEffect(() => {
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
     const config = {
       headers: {
@@ -37,12 +43,14 @@ export default function Habitos() {
 
     promise.then((res) => {
       setHabitos(res.data)
+      // console.log(res.data)
+
     })
     promise.catch((err) => {
       console.log(err.response.data)
     })
-  }, [])
-
+    // }, [])}
+  }
   function AdicionarHabito() {
     if (cadastrarHabito === true) {
       setCadastrarHabito(false)
@@ -51,10 +59,96 @@ export default function Habitos() {
   }
   function selecionarDiasDaSemana(d) {
     setDiasSelecionados([...diasSelecionados, d.id])
-    console.log(diasSelecionados)
+    // console.log(diasSelecionados)
   }
+  function registrarHabito() {
+    setDisabled(true)
+    setBotaoAnimado(
+      <ThreeDots
+        height="50"
+        width="50"
+        radius="9"
+        color="#FFFFFF"
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        wrapperClassName=""
+        visible={true}
+      />)
+
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+    const dados = {
+      name: nomeDoHabito,
+      days: diasSelecionados
+
+    }
+    const promise = axios.post(URL, dados, config)
+
+    promise.then((res) => {
+      // console.log(res.data)
+      setNomeDoHabito("")
+      setDiasSelecionados([])
+      setDisabled(false)
+      setBotaoAnimado("Cadastrar")
+      setCadastrarHabito(false)
+
+    })
+    promise.catch((err) => {
+      setDisabled(false)
+      alert("Confira os dados")
+      setBotaoAnimado("Cadastrar")
+      console.log(err.response.data)
+    })
+
+  }
+  function deletarHabito(id) {
+    if (window.confirm("Tem certeza que desenha excluir?")) {
+      const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+
+      const promise = axios.delete(URL, config)
+
+      promise.then((res) => {
+
+        console.log(res.data)
+        carregarHabitos();
+
+      })
+      promise.catch((err) => {
+        console.log(err.response.data)
+      })
+
+    }
+   
+  }
+
+if(habitos === undefined && cadastrarHabito === false ) {
+  return(
+    <>
+    <Topo />
+    <ContainerHabitos>
+      <Cabecalho>
+        <h1>Hábitos</h1>
+        <button onClick={AdicionarHabito}>+</button>
+      </Cabecalho>
+      <p>Carregando...</p>
+    </ContainerHabitos>
+    <Menu />
+  </>
+)
+  
+}
+
   // NENHUM HABITO E FECHADO //
-  if (habitos.length === 0 && cadastrarHabito === false) {
+  else if (habitos.length === 0 && cadastrarHabito === false) {
 
     return (
       <>
@@ -88,7 +182,7 @@ export default function Habitos() {
               placeholder="nome do hábito"
               value={nomeDoHabito}
               onChange={e => setNomeDoHabito(e.target.value)}
-              // disabled={disabled}
+              disabled={disabled}
               required
             />
 
@@ -97,8 +191,11 @@ export default function Habitos() {
 
                 <Button
                   key={d.id}
-                  onClick={() => {selecionarDiasDaSemana(d)
-                  console.log(d.id)}}
+                  disabled={disabled}
+                  onClick={() => {
+                    selecionarDiasDaSemana(d)
+                    // console.log(d.id)
+                  }}
                   verificaçao={diasSelecionados.includes(d.id)}
                 >
                   {d.name}
@@ -107,12 +204,12 @@ export default function Habitos() {
             </DiasDaSemana>
 
             <Botoes>
-              <button>Cancelar</button>
+              <button onClick={() => setCadastrarHabito(false)}>Cancelar</button>
 
               <button
-                onClick={() =>
-                  console.log(nomeDoHabito)}
-              > Salvar
+                onClick={registrarHabito}
+                disabled={disabled}
+              > {botaoAnimado}
               </button>
 
             </Botoes>
@@ -125,10 +222,124 @@ export default function Habitos() {
 
 
     // ALGUM HABITO REGISTRADO //
-  } else if (habitos.length > 0) {
+  } else if (habitos.length > 0 && cadastrarHabito === false) {
+    return (
+      <>
+        <Topo />
+        <ContainerHabitos>
+          <Cabecalho>
+            <h1>Hábitos</h1>
+            <button onClick={AdicionarHabito}>+</button>
+          </Cabecalho>
+
+          {habitos.map((h) => <HabitosSalvos>
+            <div>
+              {h.name}
+              <img src={lixeira} onClick={() => deletarHabito(h.id)} />
+            </div>
+            <DiasDaSemana>
+              {diasDaSemana.map((d) =>
+
+                <Button
+                  key={d.id}
+                  // onClick={() => {console.log(h)
+                  // console.log(d.id)}}
+                  verificaçao={h.days.includes(d.id)}
+                >
+                  {d.name}
+                </Button>)}
+
+            </DiasDaSemana>
 
 
+          </HabitosSalvos>)}
+
+
+        </ContainerHabitos>
+        <Menu />
+      </>
+    )
+
+    // ALGUM HABITO REGISTRADO E REGISTRAR HABITO//
+
+  } else {
+    return (
+      <>
+        <Topo />
+        <ContainerHabitos>
+          <Cabecalho>
+            <h1>Hábitos</h1>
+            <button onClick={AdicionarHabito}>+</button>
+          </Cabecalho>
+          <ContainerCriarHabitos>
+
+            <input
+              placeholder="nome do hábito"
+              value={nomeDoHabito}
+              onChange={e => setNomeDoHabito(e.target.value)}
+              disabled={disabled}
+              required
+            />
+
+            <DiasDaSemana>
+              {diasDaSemana.map((d) =>
+
+                <Button
+                  key={d.id}
+                  disabled={disabled}
+                  onClick={() => {
+                    selecionarDiasDaSemana(d)
+                    // console.log(d.id)
+                  }}
+                  verificaçao={diasSelecionados.includes(d.id)}
+                >
+                  {d.name}
+                </Button>)}
+
+            </DiasDaSemana>
+
+            <Botoes>
+              <button onClick={() => setCadastrarHabito(false)}>Cancelar</button>
+
+              <button
+                onClick={registrarHabito}
+                disabled={disabled}
+              > {botaoAnimado}
+              </button>
+
+            </Botoes>
+          </ContainerCriarHabitos>
+
+          {habitos.map((h) => <HabitosSalvos>
+            <div>
+              {h.name}
+              <img src={lixeira} onClick={() => deletarHabito(h.id)} />
+            </div>
+            <DiasDaSemana>
+              {diasDaSemana.map((d) =>
+
+                <Button
+                  key={d.id}
+                  // onClick={() => {console.log(h)
+                  // console.log(d.id)}}
+                  verificaçao={h.days.includes(d.id)}
+                >
+                  {d.name}
+                </Button>)}
+
+            </DiasDaSemana>
+
+
+          </HabitosSalvos>)}
+
+
+        </ContainerHabitos>
+        <Menu />
+      </>
+    )
   }
+
+
 
 }
 
@@ -196,7 +407,7 @@ const ContainerCriarHabitos = styled.div`
 const DiasDaSemana = styled.div`
     display:flex;      
 `
-    const Button= styled.button`
+const Button = styled.button`
     width:30px;
     height:30px;
     border: 1px solid #D5D5D5;
@@ -232,6 +443,35 @@ button: nth-child(2){
   width: 84px;
   height: 35px;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
 }
+`
+const HabitosSalvos = styled.div`
+margin-top:20px;
+  width:340px;
+  height:91px;
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  padding: 18px;
+  box-sizing: border-box;
+  display:flex;
+  flex-direction: column;
+  p{
+    align-self: flex-start;
+    justify-content: flex-start;
+  }
+  div{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  img{
+    width: 13px;
+    height: 17px;
+
+  }
+
 `
