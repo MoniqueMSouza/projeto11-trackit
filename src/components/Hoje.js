@@ -11,79 +11,99 @@ import MyContext from '../contexts/context'
 
 
 export default function Hoje() {
-  const { token } = useContext(MyContext)
+  const { token, setPorcentagem, porcentagem } = useContext(MyContext)
   const today = dayjs().locale("pt-br").format("dddd, DD/MM");
   const [hoje, setHoje] = useState([])
+
+  
+
   // const [feito, setFeito] = useState(false)
 
   useEffect(() => {
-  carregarHabitosHoje();
-}, [])
+    carregarHabitosHoje();
+    
+  }, [])
+
+
+  function calcularPorcentagem(calc) {
+    let total = parseInt(calc.length)
+    let habitosFeitos = calc.filter(hab => hab.done)
+    setPorcentagem(parseInt(habitosFeitos.length) * 100 / total)
+
+
+console.log(porcentagem)
+   
+  }
 
   function Check(d) {
 
-    if(d.done === false){
-    const postURL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${d.id}/check`
-    const dados = {}
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const promisse = axios.post(postURL, dados, config)
-    promisse.then(res => {
-      console.log(res)
-      carregarHabitosHoje()
-    })
-
-    promisse.catch(err => {
-      console.log(err);
-    })
-
-  }
-else if (d.done === true){
-  const postURL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${d.id}/uncheck`
-    const dados = {}
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const promisse = axios.post(postURL, dados, config)
-    promisse.then(res => {
-      console.log(res)
-      carregarHabitosHoje()
-    })
-
-    promisse.catch(err => {
-      console.log(err);
-    })
-
-
-}
-}
-
-  function carregarHabitosHoje() {
-    // useEffect(() => {
-      const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"
-
+    if (d.done === false) {
+      const postURL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${d.id}/check`
+      const dados = {}
       const config = {
         headers: {
           Authorization: `Bearer ${token}`
         }
       }
 
-      const promise = axios.get(URL, config)
-
-      promise.then((res) => {
-        setHoje(res.data)
-        console.log(res.data)
-        
+      const promisse = axios.post(postURL, dados, config)
+      promisse.then(res => {
+        console.log(res)
+        carregarHabitosHoje()
+        calcularPorcentagem()
 
       })
-      promise.catch((err) => console.log(err.response.data))
+
+      promisse.catch(err => {
+        console.log(err);
+      })
+
+    }
+    else if (d.done === true) {
+      const postURL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${d.id}/uncheck`
+      const dados = {}
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+
+      const promisse = axios.post(postURL, dados, config)
+      promisse.then(res => {
+        console.log(res)
+        carregarHabitosHoje()
+        calcularPorcentagem()
+
+      })
+
+      promisse.catch(err => {
+        console.log(err);
+      })
+
+
+    }
+  }
+
+  function carregarHabitosHoje() {
+    // useEffect(() => {
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const promise = axios.get(URL, config)
+
+    promise.then((res) => {
+      setHoje(res.data)
+      console.log(res.data)
+      calcularPorcentagem(res.data);
+
+
+    })
+    promise.catch((err) => console.log(err.response.data))
     // }, [])
   }
   return (
@@ -92,7 +112,7 @@ else if (d.done === true){
       <ContainerHoje>
         <Cabecalho>
           <h1 data-test="today">{today[0].toUpperCase() + today.slice(1)}</h1>
-          <p data-test="today-counter">Nenhum hábito concluído ainda</p>
+          <Subtitulo data-test="today-counter" v={porcentagem==0}>{(porcentagem ===0 ? "Nenhum hábito concluído ainda" : `${porcentagem}% dos hábitos concluídos`)}</Subtitulo>
         </Cabecalho>
 
 
@@ -100,8 +120,8 @@ else if (d.done === true){
           <ContainerHabitosHoje data-test="today-habit-container">
             <div>
               <h1 data-test="today-habit-name" >  {d.name} </h1>
-              <h2 data-test="today-habit-sequence">Sequência atual: {d.currentSequence} </h2>
-              <h2 data-test="today-habit-record">Seu record: {d.highestSequence} </h2>
+              <h2 data-test="today-habit-sequence">Sequência atual: <H3 verificar={d.done}>{d.currentSequence} dia</H3> </h2>
+              <h2 data-test="today-habit-record">Seu record: <H4 verific={d.currentSequence === d.highestSequence}>{d.highestSequence} dia</H4> </h2>
             </div>
             <ButtonStyle data-test="today-habit-check-btn" verificacao={d.done} onClick={() => Check(d)}>
               <img src={check} alt="" />
@@ -111,7 +131,7 @@ else if (d.done === true){
         }
 
       </ContainerHoje>
-      <Menu  />
+      <Menu />
     </>
   )
 }
@@ -134,12 +154,13 @@ const Cabecalho = styled.div`
     color:#126BA5;
     font-size: 23px; 
   }
-  p{
+ 
+  `
+
+const Subtitulo = styled.div`  
     margin-top:5px;
     font-size:18px;
-    color: #BABABA;
-  }
- 
+    color: ${(props) => (props.v ? "#BABABA" : "#8FC549")};
   `
 const ButtonStyle = styled.button`
   width: 69px;
@@ -176,4 +197,13 @@ h2{
   color:#666666;
   font-size:13px;
 }
+`
+
+const H3 = styled.span`
+color:${props => props.verificar ? "#8FC549" : "#666666"};
+  font-size:13px;
+`
+const H4 = styled.span`
+color:${props => props.verific ? "#8FC549" : "#666666"};
+  font-size:13px;
 `

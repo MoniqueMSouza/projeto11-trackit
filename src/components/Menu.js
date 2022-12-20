@@ -2,10 +2,14 @@ import styled from "styled-components"
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { Link } from "react-router-dom";
+import React, { useContext } from 'react'
+import MyContext from '../contexts/context'
 
 
 export default function Menu() {
-    const percentage = 66;
+    const { porcentagem } = useContext(MyContext)
+
+    const percentage = porcentagem;
     return (
         <Container data-test="menu">
             <StyledLink data-test="habit-link" to="/habitos">Habitos</StyledLink>

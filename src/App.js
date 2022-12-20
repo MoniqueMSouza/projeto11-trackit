@@ -17,13 +17,13 @@ export default function App() {
   const [password, setPassword] = useState("")
   const [disabled, setDisabled] = useState(false)
   const [token, setToken] = useState("")
-
+  const [porcentagem, setPorcentagem] = useState("")
 
   return (
 
     <BrowserRouter>
       <GlobalStyle />
-      <MyContext.Provider value={{ email, setEmail, name, setName, image, setImage, password, setPassword, disabled, setDisabled, token, setToken }}>
+      <MyContext.Provider value={{ email, setEmail, name, setName, image, setImage, password, setPassword, disabled, setDisabled, token, setToken, porcentagem, setPorcentagem }}>
         <Routes>
           <Route path="/" element={<Inicio />} />
           <Route path="/cadastro" element={<Cadastro />} />
