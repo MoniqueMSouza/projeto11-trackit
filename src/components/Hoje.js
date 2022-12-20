@@ -2,7 +2,7 @@ import Topo from './Topo'
 import Menu from './Menu'
 import styled from 'styled-components'
 import dayjs from "dayjs";
-import check from '/Users/55359/projeto11-trackit/src/assets/img/check.png'
+import check from  "../img/check.png"
 import "dayjs/locale/pt-br";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
