@@ -1,4 +1,4 @@
-import lixeira from '/Users/55359/projeto11-trackit/src/assets/img/lixeira.png';
+import lixeira from "../img/lixeira.png"
 import Topo from './Topo'
 import Menu from './Menu'
 import React, { useContext } from 'react'

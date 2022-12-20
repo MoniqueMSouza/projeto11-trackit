@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import trackIt from "/Users/55359/projeto11-trackit/src/assets/img/trackIt.png"
+import trackIt from "../img/trackIt.png"
 import React, { useContext } from 'react'
 import MyContext from '../contexts/context'
 

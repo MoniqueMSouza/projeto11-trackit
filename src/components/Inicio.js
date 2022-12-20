@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import logo from "/Users/55359/projeto11-trackit/src/assets/img/logo.png"
+import logo from "../img/logo.png"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
