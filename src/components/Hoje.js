@@ -15,6 +15,7 @@ export default function Hoje() {
   const today = dayjs().locale("pt-br").format("dddd, DD/MM");
   const [hoje, setHoje] = useState([])
   // const [feito, setFeito] = useState(false)
+
   useEffect(() => {
   carregarHabitosHoje();
 }, [])
@@ -87,22 +88,22 @@ else if (d.done === true){
   }
   return (
     <>
-      <Topo data-test="header" />
+      <Topo />
       <ContainerHoje>
         <Cabecalho>
-          <h1>{today[0].toUpperCase() + today.slice(1)}</h1>
-          <p>Nenhum hábito concluído ainda</p>
+          <h1 data-test="today">{today[0].toUpperCase() + today.slice(1)}</h1>
+          <p data-test="today-counter">Nenhum hábito concluído ainda</p>
         </Cabecalho>
 
 
         {hoje.map((d) =>
-          <ContainerHabitosHoje>
+          <ContainerHabitosHoje data-test="today-habit-container">
             <div>
-              <h1>  {d.name} </h1>
-              <h2>Sequência atual: {d.currentSequence} </h2>
-              <h2>Seu record: {d.highestSequence} </h2>
+              <h1 data-test="today-habit-name" >  {d.name} </h1>
+              <h2 data-test="today-habit-sequence">Sequência atual: {d.currentSequence} </h2>
+              <h2 data-test="today-habit-record">Seu record: {d.highestSequence} </h2>
             </div>
-            <ButtonStyle verificacao={d.done} onClick={() => Check(d)}>
+            <ButtonStyle data-test="today-habit-check-btn" verificacao={d.done} onClick={() => Check(d)}>
               <img src={check} alt="" />
             </ButtonStyle>
 
@@ -110,7 +111,7 @@ else if (d.done === true){
         }
 
       </ContainerHoje>
-      <Menu />
+      <Menu  />
     </>
   )
 }

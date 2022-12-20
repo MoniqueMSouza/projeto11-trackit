@@ -127,7 +127,7 @@ export default function Habitos() {
       })
 
     }
-   
+
   }
 
 
@@ -136,11 +136,11 @@ export default function Habitos() {
 
     return (
       <>
-        <Topo data-test="header" />
+        <Topo />
         <ContainerHabitos>
           <Cabecalho>
             <h1>Hábitos</h1>
-            <button onClick={AdicionarHabito}>+</button>
+            <button data-test="habit-create-btn" onClick={AdicionarHabito}>+</button>
           </Cabecalho>
           <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
         </ContainerHabitos>
@@ -153,16 +153,17 @@ export default function Habitos() {
   } else if (habitos.length === 0 && cadastrarHabito === true) {
     return (
       <>
-        <Topo data-test="header"/>
+        <Topo />
         <ContainerHabitos>
           <Cabecalho>
             <h1>Hábitos</h1>
-            <button onClick={AdicionarHabito}>+</button>
+            <button data-test="habit-create-btn" onClick={AdicionarHabito}>+</button>
           </Cabecalho>
 
-          <ContainerCriarHabitos>
+          <ContainerCriarHabitos data-test="habit-create-container">
 
             <input
+              data-test="habit-name-input"
               placeholder="nome do hábito"
               value={nomeDoHabito}
               onChange={e => setNomeDoHabito(e.target.value)}
@@ -174,6 +175,7 @@ export default function Habitos() {
               {diasDaSemana.map((d) =>
 
                 <Button
+                  data-test="habit-day"
                   key={d.id}
                   disabled={disabled}
                   onClick={() => {
@@ -188,16 +190,17 @@ export default function Habitos() {
             </DiasDaSemana>
 
             <Botoes>
-              <button onClick={() => setCadastrarHabito(false)}>Cancelar</button>
+              <button data-test="habit-create-cancel-btn" onClick={() => setCadastrarHabito(false)}>Cancelar</button>
 
               <button
+              data-test="habit-create-save-btn"
                 onClick={registrarHabito}
                 disabled={disabled}
               > {botaoAnimado}
               </button>
 
             </Botoes>
-          </ContainerCriarHabitos>
+          </ContainerCriarHabitos >
           <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
         </ContainerHabitos>
         <Menu />
@@ -209,22 +212,23 @@ export default function Habitos() {
   } else if (habitos.length > 0 && cadastrarHabito === false) {
     return (
       <>
-        <Topo data-test="header"/>
+        <Topo />
         <ContainerHabitos>
           <Cabecalho>
             <h1>Hábitos</h1>
-            <button onClick={AdicionarHabito}>+</button>
+            <button data-test="habit-create-btn" onClick={AdicionarHabito}>+</button>
           </Cabecalho>
 
-          {habitos.map((h) => <HabitosSalvos>
-            <div>
+          {habitos.map((h) => <HabitosSalvos data-test="habit-container">
+            <div data-test="habit-name">
               {h.name}
-              <img src={lixeira} onClick={() => deletarHabito(h.id)} />
+              <img data-test="habit-delete-btn" src={lixeira} onClick={() => deletarHabito(h.id)} />
             </div>
             <DiasDaSemana>
               {diasDaSemana.map((d) =>
 
                 <Button
+                data-test="habit-day"
                   key={d.id}
                   // onClick={() => {console.log(h)
                   // console.log(d.id)}}
@@ -249,15 +253,16 @@ export default function Habitos() {
   } else {
     return (
       <>
-        <Topo data-test="header"/>
+        <Topo />
         <ContainerHabitos>
           <Cabecalho>
             <h1>Hábitos</h1>
-            <button onClick={AdicionarHabito}>+</button>
+            <button data-test="habit-create-btn" onClick={AdicionarHabito}>+</button>
           </Cabecalho>
-          <ContainerCriarHabitos>
+          <ContainerCriarHabitos data-test="habit-create-container">
 
             <input
+              data-test="habit-name-input"
               placeholder="nome do hábito"
               value={nomeDoHabito}
               onChange={e => setNomeDoHabito(e.target.value)}
@@ -269,6 +274,7 @@ export default function Habitos() {
               {diasDaSemana.map((d) =>
 
                 <Button
+                  data-test="habit-day"
                   key={d.id}
                   disabled={disabled}
                   onClick={() => {
@@ -283,9 +289,10 @@ export default function Habitos() {
             </DiasDaSemana>
 
             <Botoes>
-              <button onClick={() => setCadastrarHabito(false)}>Cancelar</button>
+              <button data-test="habit-create-cancel-btn" onClick={() => setCadastrarHabito(false)}>Cancelar</button>
 
               <button
+              data-test="habit-create-save-btn"
                 onClick={registrarHabito}
                 disabled={disabled}
               > {botaoAnimado}
@@ -294,15 +301,16 @@ export default function Habitos() {
             </Botoes>
           </ContainerCriarHabitos>
 
-          {habitos.map((h) => <HabitosSalvos>
-            <div>
+          {habitos.map((h) => <HabitosSalvos data-test="habit-container">
+            <div data-test="habit-name">
               {h.name}
-              <img src={lixeira} onClick={() => deletarHabito(h.id)} />
+              <img data-test="habit-delete-btn" src={lixeira} onClick={() => deletarHabito(h.id)} />
             </div>
             <DiasDaSemana>
               {diasDaSemana.map((d) =>
 
                 <Button
+                data-test="habit-day"
                   key={d.id}
                   // onClick={() => {console.log(h)
                   // console.log(d.id)}}

@@ -8,7 +8,7 @@ export default function Menu() {
     const percentage = 66;
     return (
         <Container data-test="menu">
-            <StyledLink to="/habitos">Habitos</StyledLink>
+            <StyledLink data-test="habit-link" to="/habitos">Habitos</StyledLink>
             <Progresso>
                 <CircularProgressbarWithChildren
                     value={percentage}
@@ -22,12 +22,12 @@ export default function Menu() {
 
                     })}
                 >
-                    <StyledLink to="/hoje"><p>Hoje</p></StyledLink>
+                    <StyledLink  data-test="today-link" to="/hoje"><p>Hoje</p></StyledLink>
                 </CircularProgressbarWithChildren>
 
 
             </Progresso>
-            <StyledLink to="/historico">Histórico</StyledLink>
+            <StyledLink data-test="history-link" to="/historico">Histórico</StyledLink>
         </Container>
     )
 }
