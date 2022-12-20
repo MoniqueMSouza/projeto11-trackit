@@ -91,10 +91,10 @@ export default function Cadastro() {
           required
         />
 
-        <button
+        <BotaoCadastro
           data-test="signup-btn"
           disabled={disabled}
-        >{botaoAnimado}</button>
+        >{botaoAnimado}</BotaoCadastro>
 
       </form>
 
@@ -144,8 +144,14 @@ const ContainerInicio = styled.div`
   }
    }
 
-   button{
-    background-color: #52B6FF;
+  `
+const StyledLink = styled(Link)`
+  color: #52B6FF;
+  font-size:14px;
+  `
+
+  const BotaoCadastro = styled.button`
+  background-color: #52B6FF;
     border-radius: 4.7px;
     width:303px;
     height:45px;
@@ -157,9 +163,5 @@ const ContainerInicio = styled.div`
     color:#FFFFFF;
     font-family:'Lexend Deca', sans-serif;
     font-size:20px;
-   }
-  `
-const StyledLink = styled(Link)`
-  color: #52B6FF;
-  font-size:14px;
+    opacity: ${props => props.disabled ? "0.5" : ""}
   `

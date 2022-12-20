@@ -40,7 +40,7 @@ export default function Inicio() {
       navigate('/hoje')
       setImage(res.data.image)
       setToken(res.data.token)
-      console.log(res)
+
     })
 
     promisse.catch(res => {
@@ -76,13 +76,13 @@ export default function Inicio() {
           required
         />
 
-        <button
+        < BotaoInicio
           data-test="login-btn"
           disabled={disabled}
         >
           {botaoAnimado}
 
-        </button>
+        </ BotaoInicio>
 
       </form>
 
@@ -132,8 +132,15 @@ const ContainerInicio = styled.div`
     
   }
    }
-button{ 
-    background-color: #52B6FF;
+
+  `
+const StyledLink = styled(Link)`
+  color: #52B6FF;
+  font-size:14px;
+  `
+
+  const BotaoInicio = styled.button`
+      background-color: #52B6FF;
     border-radius: 4.7px;
     width:303px;
     height:45px;
@@ -145,9 +152,6 @@ button{
     color:#FFFFFF;
     font-family:'Lexend Deca', sans-serif;
     font-size:20px;
-   }
-  `
-const StyledLink = styled(Link)`
-  color: #52B6FF;
-  font-size:14px;
+    opacity: ${props => props.disabled ? "0.5" : ""}
+  
   `

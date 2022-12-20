@@ -15,24 +15,20 @@ export default function Hoje() {
   const today = dayjs().locale("pt-br").format("dddd, DD/MM");
   const [hoje, setHoje] = useState([])
 
-  
+
 
   // const [feito, setFeito] = useState(false)
 
   useEffect(() => {
     carregarHabitosHoje();
-    
+
   }, [])
 
 
   function calcularPorcentagem(calc) {
-    let total = parseInt(calc.length)
+    let total = Number(calc.length)
     let habitosFeitos = calc.filter(hab => hab.done)
-    setPorcentagem(parseInt(habitosFeitos.length) * 100 / total)
-
-
-console.log(porcentagem)
-   
+    setPorcentagem(Number(habitosFeitos.length) * 100 / total)
   }
 
   function Check(d) {
@@ -48,7 +44,6 @@ console.log(porcentagem)
 
       const promisse = axios.post(postURL, dados, config)
       promisse.then(res => {
-        console.log(res)
         carregarHabitosHoje()
         calcularPorcentagem()
 
@@ -70,7 +65,6 @@ console.log(porcentagem)
 
       const promisse = axios.post(postURL, dados, config)
       promisse.then(res => {
-        console.log(res)
         carregarHabitosHoje()
         calcularPorcentagem()
 
@@ -98,7 +92,7 @@ console.log(porcentagem)
 
     promise.then((res) => {
       setHoje(res.data)
-      console.log(res.data)
+
       calcularPorcentagem(res.data);
 
 
@@ -112,7 +106,7 @@ console.log(porcentagem)
       <ContainerHoje>
         <Cabecalho>
           <h1 data-test="today">{today[0].toUpperCase() + today.slice(1)}</h1>
-          <Subtitulo data-test="today-counter" v={porcentagem==0}>{(porcentagem ===0 ? "Nenhum hábito concluído ainda" : `${porcentagem}% dos hábitos concluídos`)}</Subtitulo>
+          <Subtitulo data-test="today-counter" v={porcentagem == 0}>{(porcentagem === 0 ? "Nenhum hábito concluído ainda" : `${porcentagem}% dos hábitos concluídos`)}</Subtitulo>
         </Cabecalho>
 
 
@@ -121,7 +115,7 @@ console.log(porcentagem)
             <div>
               <h1 data-test="today-habit-name" >  {d.name} </h1>
               <h2 data-test="today-habit-sequence">Sequência atual: <H3 verificar={d.done}>{d.currentSequence} dia</H3> </h2>
-              <h2 data-test="today-habit-record">Seu record: <H4 verific={d.currentSequence === d.highestSequence}>{d.highestSequence} dia</H4> </h2>
+              <h2 data-test="today-habit-record">Seu record: <H4 verific={d.currentSequence === d.highestSequence && d.highestSequence != 0}>{d.highestSequence} dia</H4> </h2>
             </div>
             <ButtonStyle data-test="today-habit-check-btn" verificacao={d.done} onClick={() => Check(d)}>
               <img src={check} alt="" />

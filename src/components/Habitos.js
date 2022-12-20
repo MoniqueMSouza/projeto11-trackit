@@ -43,7 +43,7 @@ export default function Habitos() {
 
     promise.then((res) => {
       setHabitos(res.data)
-      // console.log(res.data)
+
 
     })
     promise.catch((err) => {
@@ -57,10 +57,11 @@ export default function Habitos() {
     } else { setCadastrarHabito(true) }
 
   }
-  function selecionarDiasDaSemana(d) {
-    setDiasSelecionados([...diasSelecionados, d.id])
-    // console.log(diasSelecionados)
+  function selecionarDiasDaSemana(d) {       
+    setDiasSelecionados([...diasSelecionados, d.id])      
   }
+
+
   function registrarHabito() {
     setDisabled(true)
     setBotaoAnimado(
@@ -89,7 +90,7 @@ export default function Habitos() {
     const promise = axios.post(URL, dados, config)
 
     promise.then((res) => {
-      // console.log(res.data)
+
       setNomeDoHabito("")
       setDiasSelecionados([])
       setDisabled(false)
@@ -117,8 +118,6 @@ export default function Habitos() {
       const promise = axios.delete(URL, config)
 
       promise.then((res) => {
-
-        console.log(res.data)
         carregarHabitos();
 
       })
@@ -180,7 +179,6 @@ export default function Habitos() {
                   disabled={disabled}
                   onClick={() => {
                     selecionarDiasDaSemana(d)
-                    // console.log(d.id)
                   }}
                   verificaçao={diasSelecionados.includes(d.id)}
                 >
@@ -192,12 +190,12 @@ export default function Habitos() {
             <Botoes>
               <button data-test="habit-create-cancel-btn" onClick={() => setCadastrarHabito(false)}>Cancelar</button>
 
-              <button
-              data-test="habit-create-save-btn"
+              <BotaoCadastrar
+                data-test="habit-create-save-btn"
                 onClick={registrarHabito}
                 disabled={disabled}
               > {botaoAnimado}
-              </button>
+              </BotaoCadastrar>
 
             </Botoes>
           </ContainerCriarHabitos >
@@ -228,10 +226,8 @@ export default function Habitos() {
               {diasDaSemana.map((d) =>
 
                 <Button
-                data-test="habit-day"
+                  data-test="habit-day"
                   key={d.id}
-                  // onClick={() => {console.log(h)
-                  // console.log(d.id)}}
                   verificaçao={h.days.includes(d.id)}
                 >
                   {d.name}
@@ -279,7 +275,6 @@ export default function Habitos() {
                   disabled={disabled}
                   onClick={() => {
                     selecionarDiasDaSemana(d)
-                    // console.log(d.id)
                   }}
                   verificaçao={diasSelecionados.includes(d.id)}
                 >
@@ -291,29 +286,30 @@ export default function Habitos() {
             <Botoes>
               <button data-test="habit-create-cancel-btn" onClick={() => setCadastrarHabito(false)}>Cancelar</button>
 
-              <button
-              data-test="habit-create-save-btn"
+              <BotaoCadastrar
+                data-test="habit-create-save-btn"
                 onClick={registrarHabito}
                 disabled={disabled}
               > {botaoAnimado}
-              </button>
+              </BotaoCadastrar>
 
             </Botoes>
           </ContainerCriarHabitos>
 
-          {habitos.map((h) => <HabitosSalvos data-test="habit-container">
+          {habitos.map((h) =>
+           <HabitosSalvos data-test="habit-container">
+
             <div data-test="habit-name">
               {h.name}
               <img data-test="habit-delete-btn" src={lixeira} onClick={() => deletarHabito(h.id)} />
             </div>
+
             <DiasDaSemana>
               {diasDaSemana.map((d) =>
 
                 <Button
-                data-test="habit-day"
+                  data-test="habit-day"
                   key={d.id}
-                  // onClick={() => {console.log(h)
-                  // console.log(d.id)}}
                   verificaçao={h.days.includes(d.id)}
                 >
                   {d.name}
@@ -397,7 +393,8 @@ const ContainerCriarHabitos = styled.div`
   
   `
 const DiasDaSemana = styled.div`
-    display:flex;      
+    display:flex;  
+ 
 `
 const Button = styled.button`
     width:30px;
@@ -426,20 +423,7 @@ button: nth-child(1){
   font-family:'Lexend Deca', sans-serif;
   font-size:16px;
 }
-button: nth-child(2){
-  color:#FFFFFF;
-  background-color: #52B6FF;
-  font-family:'Lexend Deca', sans-serif;
-  border: none;
-  font-size:16px;
-  width: 84px;
-  height: 35px;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-}
 `
 const HabitosSalvos = styled.div`
 margin-top:20px;
@@ -465,5 +449,22 @@ margin-top:20px;
     height: 17px;
 
   }
+
+`
+
+const BotaoCadastrar = styled.button`
+
+  color:#FFFFFF;
+  background-color:#52B6FF;
+  font-family:'Lexend Deca', sans-serif;
+  border: none;
+  font-size:16px;
+  width: 84px;
+  height: 35px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: ${props => props.disabled ? "0.5" : ""} ;
 
 `
