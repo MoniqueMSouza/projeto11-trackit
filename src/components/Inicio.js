@@ -59,6 +59,7 @@ export default function Inicio() {
       <img src={logo} />
       <form onSubmit={entrar}>
         <input
+          data-test="email-input"
           placeholder="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
@@ -67,6 +68,7 @@ export default function Inicio() {
         />
 
         <input
+          data-test="password-input"
           placeholder="senha"
           value={password}
           onChange={e => setPassword(e.target.value)}
@@ -74,12 +76,18 @@ export default function Inicio() {
           required
         />
 
-        <button disabled={disabled}>{botaoAnimado}</button>
+        <button
+          data-test="login-btn"
+          disabled={disabled}
+        >
+          {botaoAnimado}
+
+        </button>
 
       </form>
 
 
-      <StyledLink to="/cadastro">Não tem uma conta? Cadastre-se!</StyledLink>
+      <StyledLink data-test="signup-link" to="/cadastro">Não tem uma conta? Cadastre-se!</StyledLink>
 
     </ContainerInicio>
   )

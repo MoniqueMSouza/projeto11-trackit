@@ -7,7 +7,7 @@ export default function Topo() {
     const { image } = useContext(MyContext)   
 
     return (
-        <Header>
+        <Header data-test="header">
             <img src={trackIt} />
             <img src={image} />
         </Header>

@@ -136,7 +136,7 @@ export default function Habitos() {
 
     return (
       <>
-        <Topo />
+        <Topo data-test="header" />
         <ContainerHabitos>
           <Cabecalho>
             <h1>Hábitos</h1>
@@ -153,7 +153,7 @@ export default function Habitos() {
   } else if (habitos.length === 0 && cadastrarHabito === true) {
     return (
       <>
-        <Topo />
+        <Topo data-test="header"/>
         <ContainerHabitos>
           <Cabecalho>
             <h1>Hábitos</h1>
@@ -209,7 +209,7 @@ export default function Habitos() {
   } else if (habitos.length > 0 && cadastrarHabito === false) {
     return (
       <>
-        <Topo />
+        <Topo data-test="header"/>
         <ContainerHabitos>
           <Cabecalho>
             <h1>Hábitos</h1>
@@ -249,7 +249,7 @@ export default function Habitos() {
   } else {
     return (
       <>
-        <Topo />
+        <Topo data-test="header"/>
         <ContainerHabitos>
           <Cabecalho>
             <h1>Hábitos</h1>

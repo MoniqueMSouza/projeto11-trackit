@@ -87,7 +87,7 @@ else if (d.done === true){
   }
   return (
     <>
-      <Topo />
+      <Topo data-test="header" />
       <ContainerHoje>
         <Cabecalho>
           <h1>{today[0].toUpperCase() + today.slice(1)}</h1>

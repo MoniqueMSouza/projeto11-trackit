@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export default function Menu() {
     const percentage = 66;
     return (
-        <Container>
+        <Container data-test="menu">
             <StyledLink to="/habitos">Habitos</StyledLink>
             <Progresso>
                 <CircularProgressbarWithChildren

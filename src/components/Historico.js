@@ -5,7 +5,7 @@ import styled from 'styled-components'
 export default function Historico() {
   return (
     <>
-      <Topo />
+      <Topo data-test="header"/>
       <ContainerHistorico>
         <h1>Historico</h1>
         <p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>

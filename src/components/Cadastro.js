@@ -14,7 +14,7 @@ export default function Cadastro() {
   // const [image, setImage] = useState("")
   // const [password, setPassword] = useState("")
   // const [disabled, setDisabled] = useState(false)
-  const { email, setEmail, name, setName,image, setImage, password, setPassword, disabled, setDisabled} = useContext(MyContext)
+  const { email, setEmail, name, setName, image, setImage, password, setPassword, disabled, setDisabled } = useContext(MyContext)
   const [botaoAnimado, setBotaoAnimado] = useState("Cadastrar")
 
 
@@ -57,6 +57,7 @@ export default function Cadastro() {
 
       <form onSubmit={cadastrar}>
         <input
+          data-test="email-input"
           placeholder="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
@@ -65,6 +66,7 @@ export default function Cadastro() {
         />
 
         <input
+          data-test="password-input"
           placeholder="senha"
           value={password}
           onChange={e => setPassword(e.target.value)}
@@ -73,6 +75,7 @@ export default function Cadastro() {
         />
 
         <input
+          data-test="user-name-input"
           placeholder="nome"
           value={name}
           onChange={e => setName(e.target.value)}
@@ -80,6 +83,7 @@ export default function Cadastro() {
           required
         />
         <input
+          data-test="user-image-input"
           placeholder="foto"
           value={image}
           onChange={e => setImage(e.target.value)}
@@ -87,11 +91,16 @@ export default function Cadastro() {
           required
         />
 
-        <button disabled={disabled}>{botaoAnimado}</button>
+        <button
+          data-test="signup-btn"
+          disabled={disabled}
+        >{botaoAnimado}</button>
 
       </form>
 
-      <StyledLink to="/">Já tem uma conta? Faça login!</StyledLink>
+      <StyledLink
+        data-test="login-link"
+        to="/">Já tem uma conta? Faça login!</StyledLink>
 
     </ContainerInicio>
   )
