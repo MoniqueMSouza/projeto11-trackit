@@ -130,25 +130,9 @@ export default function Habitos() {
    
   }
 
-if(habitos === undefined && cadastrarHabito === false ) {
-  return(
-    <>
-    <Topo />
-    <ContainerHabitos>
-      <Cabecalho>
-        <h1>Hábitos</h1>
-        <button onClick={AdicionarHabito}>+</button>
-      </Cabecalho>
-      <p>Carregando...</p>
-    </ContainerHabitos>
-    <Menu />
-  </>
-)
-  
-}
 
   // NENHUM HABITO E FECHADO //
-  else if (habitos.length === 0 && cadastrarHabito === false) {
+  if (habitos.length === 0 && cadastrarHabito === false) {
 
     return (
       <>
